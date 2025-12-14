@@ -1,29 +1,47 @@
-// app/context/BalanceContext.tsx
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface BalanceContextType {
   balance: number;
   addMoney: (amount: number) => void;
   sendMoney: (amount: number) => void;
+  isLoading: boolean;
 }
 
 const BalanceContext = createContext<BalanceContextType | undefined>(undefined);
 
 export function BalanceProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useState(500.00);
+  const [balance, setBalance] = useState<number>(1250.50);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading balance from API
+  useEffect(() => {
+    const savedBalance = localStorage.getItem('moneyflow-balance');
+    if (savedBalance) {
+      setBalance(parseFloat(savedBalance));
+    }
+    setIsLoading(false);
+  }, []);
 
   const addMoney = (amount: number) => {
-    setBalance(prev => prev + amount);
+    const newBalance = balance + amount;
+    setBalance(newBalance);
+    localStorage.setItem('moneyflow-balance', newBalance.toString());
   };
 
   const sendMoney = (amount: number) => {
-    setBalance(prev => prev - amount);
+    if (balance >= amount) {
+      const newBalance = balance - amount;
+      setBalance(newBalance);
+      localStorage.setItem('moneyflow-balance', newBalance.toString());
+      return true;
+    }
+    return false;
   };
 
   return (
-    <BalanceContext.Provider value={{ balance, addMoney, sendMoney }}>
+    <BalanceContext.Provider value={{ balance, addMoney, sendMoney, isLoading }}>
       {children}
     </BalanceContext.Provider>
   );
