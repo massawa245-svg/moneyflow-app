@@ -1,7 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Settings, User, Search, Menu, X, Wallet } from 'lucide-react';
+import { 
+  Bell, 
+  Settings, 
+  User, 
+  Search, 
+  Menu, 
+  X, 
+  Wallet,
+  Send,
+  PlusCircle,
+  QrCode,
+  History,
+  DollarSign
+} from 'lucide-react';
 import Link from 'next/link';
 
 export default function Header() {
@@ -10,13 +23,13 @@ export default function Header() {
 
   const menuItems = [
     { name: 'Dashboard', href: '/', icon: Wallet },
-    { name: 'Send Money', href: '/send', icon: Wallet },
-    { name: 'Add Money', href: '/add', icon: Wallet },
-    { name: 'QR Code', href: '/qr', icon: Wallet },
-    { name: 'History', href: '/history', icon: Wallet },
+    { name: 'Send Money', href: '/send', icon: Send },
+    { name: 'Add Money', href: '/add', icon: PlusCircle },
+    { name: 'Withdraw', href: '/payout', icon: DollarSign },
+    { name: 'QR Code', href: '/qr', icon: QrCode },
+    { name: 'History', href: '/history', icon: History },
     { name: 'Contacts', href: '/contacts', icon: User },
     { name: 'Settings', href: '/settings', icon: Settings },
-    { name: 'Notifications', href: '/notifications', icon: Bell },
   ];
 
   return (
@@ -98,8 +111,12 @@ export default function Header() {
                   <p className="text-xs text-gray-500">max@example.com</p>
                 </div>
                 <div className="p-2">
-                  <Link href="/profile" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-sm">Profile</Link>
-                  <Link href="/settings" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-sm">Settings</Link>
+                  <Link href="/profile" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-sm">
+                    Profile
+                  </Link>
+                  <Link href="/settings" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-sm">
+                    Settings
+                  </Link>
                   <button className="block w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg text-sm">
                     Logout
                   </button>
@@ -170,7 +187,13 @@ export default function Header() {
           </div>
           
           <div className="mt-8 pt-6 border-t border-gray-100">
-            <button className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors text-red-600 w-full">
+            <button 
+              onClick={() => {
+                // Logout logic here
+                setIsMenuOpen(false);
+              }}
+              className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors text-red-600 w-full"
+            >
               <Settings className="w-5 h-5" />
               <span className="font-medium">Logout</span>
             </button>

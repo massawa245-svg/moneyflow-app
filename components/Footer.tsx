@@ -12,28 +12,31 @@ import {
   Shield,
   HelpCircle,
   MessageSquare,
-  ChevronUp
+  ChevronUp,
+  DollarSign
 } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Footer() {
   const pathname = usePathname();
+  const router = useRouter();
   const [showQuickActions, setShowQuickActions] = useState(false);
 
   const mainNavItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Send', href: '/send', icon: Send },
     { name: 'Add', href: '/add', icon: PlusCircle },
+    { name: 'Payout', href: '/payout', icon: DollarSign },
     { name: 'QR', href: '/qr', icon: QrCode },
     { name: 'History', href: '/history', icon: History },
   ];
 
   const quickActions = [
-    { name: 'Quick Send', icon: Send, color: 'bg-green-500', action: () => console.log('Quick Send') },
-    { name: 'Scan QR', icon: QrCode, color: 'bg-blue-500', action: () => console.log('Scan QR') },
-    { name: 'Request', icon: CreditCard, color: 'bg-purple-500', action: () => console.log('Request Money') },
-    { name: 'Split Bill', icon: Wallet, color: 'bg-orange-500', action: () => console.log('Split Bill') },
+    { name: 'Quick Send', icon: Send, color: 'bg-green-500', action: () => router.push('/send') },
+    { name: 'Withdraw', icon: DollarSign, color: 'bg-blue-500', action: () => router.push('/payout') },
+    { name: 'Scan QR', icon: QrCode, color: 'bg-purple-500', action: () => router.push('/qr') },
+    { name: 'Add Funds', icon: PlusCircle, color: 'bg-orange-500', action: () => router.push('/add') },
   ];
 
   return (
@@ -116,7 +119,10 @@ export default function Footer() {
                 <span>Help</span>
               </div>
             </div>
-            <button className="flex items-center text-blue-600 font-medium">
+            <button 
+              onClick={() => router.push('/support')}
+              className="flex items-center text-blue-600 font-medium hover:text-blue-700"
+            >
               <MessageSquare className="w-3 h-3 mr-1" />
               <span className="hidden sm:inline">Support</span>
             </button>
