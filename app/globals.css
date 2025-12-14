@@ -72,3 +72,18 @@
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   }
 }
+/* In globals.css hinzufügen */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .text-sm-mobile {
+    font-size: 0.875rem;
+  }
+  
+  .p-4-mobile {
+    padding: 1rem;
+  }
+}
