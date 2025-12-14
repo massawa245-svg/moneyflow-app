@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  Send, Wallet, History, User, 
+  Send, Wallet, History, 
   CreditCard, Shield, TrendingUp,
   ArrowUpRight, ArrowDownLeft, QrCode,
-  Bell, Settings, Search, DollarSign,
-  Plus, Calendar, Clock, CheckCircle,
-  BarChart3, Target, Zap
+  DollarSign, Plus, Calendar, Clock, 
+  CheckCircle, BarChart3, Target, Zap
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBalance } from './context/BalanceContext';
@@ -120,37 +119,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 px-6 py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-primary-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Wallet className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gradient">MoneyFlow</h1>
-              <p className="text-xs text-gray-500 font-medium">Fast & Secure</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button className="p-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200 relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-            
-            <button className="p-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200">
-              <Settings className="w-5 h-5" />
-            </button>
-            
-            <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-purple-500 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="p-4 md:p-6 max-w-7xl mx-auto pb-24 md:pb-6">
+      {/* KEIN HEADER MEHR HIER - Header kommt jetzt von components/Header.tsx */}
+      
+      <main className="p-4 md:p-6 max-w-7xl mx-auto pb-24 md:pb-6 pt-4">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
