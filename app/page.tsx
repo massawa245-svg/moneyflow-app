@@ -1,5 +1,4 @@
-﻿// app/page.tsx - PREMIUM DASHBOARD (ENGLISH)
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { 
@@ -8,23 +7,16 @@ import {
   ArrowUpRight, ArrowDownLeft, QrCode,
   Bell, Settings, Search, DollarSign,
   Plus, Calendar, Clock, CheckCircle,
-  BarChart3, Target, Zap, Loader2
+  BarChart3, Target, Zap
 } from 'lucide-react';
 import Link from 'next/link';
-import { useBalance } from '@/app/context/BalanceContext';
+import { useBalance } from './context/BalanceContext';
 
 export default function Home() {
   const { balance, isLoading: balanceLoading } = useBalance();
   const [timeOfDay, setTimeOfDay] = useState('');
-  const [transactions, setTransactions] = useState([
-    { id: 1, name: 'Anna Schmidt', type: 'sent', amount: -50.00, time: '10:30 AM', date: 'Today', status: 'completed' },
-    { id: 2, name: 'John Doe', type: 'received', amount: 100.00, time: 'Yesterday', date: 'Yesterday', status: 'completed' },
-    { id: 3, name: 'Sarah Miller', type: 'sent', amount: -30.00, time: '14:45', date: 'Dec 12', status: 'pending' },
-    { id: 4, name: 'Amazon', type: 'sent', amount: -89.99, time: '20:30', date: 'Dec 11', status: 'completed' },
-  ]);
   
   useEffect(() => {
-    // Set greeting based on time
     const hour = new Date().getHours();
     if (hour < 12) setTimeOfDay('Morning');
     else if (hour < 18) setTimeOfDay('Afternoon');
@@ -101,52 +93,25 @@ export default function Home() {
     },
   ];
 
-  const frequentContacts = [
-    { 
-      id: 1, 
-      name: 'Anna Schmidt', 
-      lastAmount: '$50.00', 
-      lastTime: '2h ago',
-      avatar: 'AS'
-    },
-    { 
-      id: 2, 
-      name: 'John Doe', 
-      lastAmount: '$100.00', 
-      lastTime: 'Yesterday',
-      avatar: 'JD'
-    },
-    { 
-      id: 3, 
-      name: 'Sarah Miller', 
-      lastAmount: '$30.00', 
-      lastTime: '3 days ago',
-      avatar: 'SM'
-    },
-    { 
-      id: 4, 
-      name: 'Max Mustermann', 
-      lastAmount: '$25.00', 
-      lastTime: 'This week',
-      avatar: 'MM'
-    },
+  const transactions = [
+    { id: 1, name: 'Anna Schmidt', type: 'sent', amount: -50.00, time: '10:30 AM', date: 'Today', status: 'completed' },
+    { id: 2, name: 'John Doe', type: 'received', amount: 100.00, time: 'Yesterday', date: 'Yesterday', status: 'completed' },
+    { id: 3, name: 'Sarah Miller', type: 'sent', amount: -30.00, time: '14:45', date: 'Dec 12', status: 'pending' },
+    { id: 4, name: 'Amazon', type: 'sent', amount: -89.99, time: '20:30', date: 'Dec 11', status: 'completed' },
   ];
 
-  const handleSendMoney = (contactId: number) => {
-    // Would normally navigate to send page with contact ID
-    console.log('Send money to contact:', contactId);
-  };
-
-  // Calculated values
-  const monthlySpent = 1250.00;
-  const monthlyReceived = 850.00;
-  const monthlyBalance = monthlyReceived - monthlySpent;
+  const contacts = [
+    { id: 1, name: 'Anna Schmidt', lastAmount: '$50.00', lastTime: '2h ago', avatar: 'AS' },
+    { id: 2, name: 'John Doe', lastAmount: '$100.00', lastTime: 'Yesterday', avatar: 'JD' },
+    { id: 3, name: 'Sarah Miller', lastAmount: '$30.00', lastTime: '3 days ago', avatar: 'SM' },
+    { id: 4, name: 'Max Mustermann', lastAmount: '$25.00', lastTime: 'This week', avatar: 'MM' },
+  ];
 
   if (balanceLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -154,32 +119,21 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 px-6 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-r from-primary-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
               <Wallet className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                MoneyFlow
-              </h1>
+              <h1 className="text-2xl font-bold text-gradient">MoneyFlow</h1>
               <p className="text-xs text-gray-500 font-medium">Fast & Secure</p>
             </div>
           </div>
           
           <div className="flex items-center space-x-3">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 bg-gray-100 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
-              />
-            </div>
-            
             <button className="p-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200 relative">
               <Bell className="w-5 h-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -189,21 +143,8 @@ export default function Home() {
               <Settings className="w-5 h-5" />
             </button>
             
-            <div className="relative group">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center cursor-pointer hover:shadow-lg transition-shadow">
-                <User className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="p-3 border-b border-gray-100">
-                  <p className="font-semibold text-gray-900">Max Mustermann</p>
-                  <p className="text-sm text-gray-500">max@example.com</p>
-                </div>
-                <div className="p-2">
-                  <a href="#" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Profile</a>
-                  <a href="#" className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Settings</a>
-                  <a href="#" className="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg">Logout</a>
-                </div>
-              </div>
+            <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-purple-500 rounded-full flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
             </div>
           </div>
         </div>
@@ -217,20 +158,11 @@ export default function Home() {
           </h1>
           <p className="text-gray-600 mt-2">Here's your financial overview for today</p>
           
-          {/* Date Display */}
           <div className="flex items-center mt-4 text-sm text-gray-500">
             <Calendar className="w-4 h-4 mr-2" />
-            <span>{new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}</span>
+            <span>Sunday, December 14, 2025</span>
             <Clock className="w-4 h-4 ml-4 mr-2" />
-            <span>{new Date().toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit' 
-            })}</span>
+            <span>04:49 PM</span>
           </div>
         </div>
 
@@ -238,55 +170,50 @@ export default function Home() {
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Balance Card */}
-            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-3xl p-6 md:p-8 text-white shadow-2xl relative overflow-hidden">
-              {/* Background Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-              
-              <div className="relative z-10">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-blue-100 text-sm font-medium">Total Balance</p>
-                    <h2 className="text-4xl md:text-5xl font-bold mt-2 tracking-tight">
-                      ${balance.toFixed(2)}
-                    </h2>
-                    <div className="flex items-center mt-4">
-                      <div className="flex items-center text-blue-100">
-                        <CheckCircle className="w-4 h-4 mr-1" />
-                        <span className="text-sm">Account Verified</span>
-                      </div>
-                      <div className="w-1 h-1 bg-blue-300 rounded-full mx-3"></div>
-                      <div className="flex items-center text-blue-100">
-                        <Shield className="w-4 h-4 mr-1" />
-                        <span className="text-sm">100% Secure</span>
-                      </div>
+            <div className="balance-card">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-primary-100 text-sm font-medium">Total Balance</p>
+                  <h2 className="text-4xl md:text-5xl font-bold mt-2 tracking-tight">
+                    ${balance.toFixed(2)}
+                  </h2>
+                  <div className="flex items-center mt-4">
+                    <div className="flex items-center text-primary-100">
+                      <CheckCircle className="w-4 h-4 mr-1" />
+                      <span className="text-sm">Account Verified</span>
                     </div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
-                    <Wallet className="w-8 h-8" />
+                    <div className="w-1 h-1 bg-primary-300 rounded-full mx-3"></div>
+                    <div className="flex items-center text-primary-100">
+                      <Shield className="w-4 h-4 mr-1" />
+                      <span className="text-sm">100% Secure</span>
+                    </div>
                   </div>
                 </div>
-                
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-blue-100 text-sm">Daily Limit</p>
-                        <p className="text-xl font-semibold mt-1">$1,000.00</p>
-                      </div>
-                      <div className="bg-white/20 p-2 rounded-lg">
-                        <Zap className="w-5 h-5" />
-                      </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <Wallet className="w-8 h-8" />
+                </div>
+              </div>
+              
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-primary-100 text-sm">Daily Limit</p>
+                      <p className="text-xl font-semibold mt-1">$1,000.00</p>
+                    </div>
+                    <div className="bg-white/20 p-2 rounded-lg">
+                      <Zap className="w-5 h-5" />
                     </div>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-blue-100 text-sm">Sent Today</p>
-                        <p className="text-xl font-semibold mt-1">$150.00</p>
-                      </div>
-                      <div className="bg-white/20 p-2 rounded-lg">
-                        <Send className="w-5 h-5" />
-                      </div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-primary-100 text-sm">Sent Today</p>
+                      <p className="text-xl font-semibold mt-1">$150.00</p>
+                    </div>
+                    <div className="bg-white/20 p-2 rounded-lg">
+                      <Send className="w-5 h-5" />
                     </div>
                   </div>
                 </div>
@@ -294,7 +221,7 @@ export default function Home() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg">
+            <div className="card">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {quickActions.map((action, index) => (
@@ -318,15 +245,12 @@ export default function Home() {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {stats.map((stat, index) => (
-                <div key={index} className="bg-white rounded-2xl p-5 shadow-lg">
+                <div key={index} className="stat-card">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm">{stat.label}</p>
                       <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
-                      <p className={`text-sm mt-1 font-medium ${
-                        stat.changeType === 'increase' ? 'text-green-600' :
-                        stat.changeType === 'excellent' ? 'text-purple-600' : 'text-orange-600'
-                      }`}>
+                      <p className={`text-sm mt-1 font-medium ${stat.color}`}>
                         {stat.change}
                       </p>
                     </div>
@@ -349,7 +273,7 @@ export default function Home() {
             </div>
 
             {/* Monthly Overview */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg">
+            <div className="card">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-gray-900">Monthly Overview</h3>
                 <span className="text-sm text-gray-500">December 2023</span>
@@ -360,7 +284,7 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-600 text-sm">Income</p>
-                      <p className="text-2xl font-bold text-green-600 mt-1">${monthlyReceived.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-green-600 mt-1">$850.00</p>
                     </div>
                     <ArrowDownLeft className="w-8 h-8 text-green-500" />
                   </div>
@@ -370,44 +294,34 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-600 text-sm">Expenses</p>
-                      <p className="text-2xl font-bold text-red-600 mt-1">${monthlySpent.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-red-600 mt-1">$1,250.00</p>
                     </div>
                     <ArrowUpRight className="w-8 h-8 text-red-500" />
                   </div>
                 </div>
                 
-                <div className={`p-4 rounded-2xl ${
-                  monthlyBalance >= 0 
-                    ? 'bg-gradient-to-r from-blue-50 to-indigo-50' 
-                    : 'bg-gradient-to-r from-amber-50 to-orange-50'
-                }`}>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-2xl">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-600 text-sm">Net Balance</p>
-                      <p className={`text-2xl font-bold mt-1 ${
-                        monthlyBalance >= 0 ? 'text-blue-600' : 'text-amber-600'
-                      }`}>
-                        {monthlyBalance >= 0 ? '+' : ''}${monthlyBalance.toFixed(2)}
-                      </p>
+                      <p className="text-2xl font-bold text-blue-600 mt-1">-$400.00</p>
                     </div>
-                    <DollarSign className={`w-8 h-8 ${
-                      monthlyBalance >= 0 ? 'text-blue-500' : 'text-amber-500'
-                    }`} />
+                    <DollarSign className="w-8 h-8 text-blue-500" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Recent Transactions */}
+          {/* Right Column */}
           <div className="space-y-6">
             {/* Recent Transactions */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg">
+            <div className="card">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-gray-900">Recent Transactions</h3>
                 <Link 
                   href="/history" 
-                  className="text-blue-600 hover:text-blue-700 font-medium flex items-center text-sm"
+                  className="text-primary-600 hover:text-primary-700 font-medium flex items-center text-sm"
                 >
                   View All
                   <ArrowUpRight className="w-4 h-4 ml-1" />
@@ -416,13 +330,13 @@ export default function Home() {
 
               <div className="space-y-4">
                 {transactions.map((tx) => (
-                  <div key={tx.id} className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-all group">
+                  <div key={tx.id} className="transaction-item">
                     <div className="flex items-center space-x-4">
                       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                         tx.type === 'sent' 
-                          ? 'bg-red-100 text-red-600 group-hover:bg-red-200' 
-                          : 'bg-green-100 text-green-600 group-hover:bg-green-200'
-                      } transition-colors`}>
+                          ? 'bg-red-100 text-red-600' 
+                          : 'bg-green-100 text-green-600'
+                      }`}>
                         {tx.type === 'sent' ? (
                           <ArrowUpRight className="w-6 h-6" />
                         ) : (
@@ -457,13 +371,13 @@ export default function Home() {
             </div>
 
             {/* Frequent Contacts */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg">
+            <div className="card">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Frequent Contacts</h3>
               <div className="space-y-4">
-                {frequentContacts.map((contact) => (
-                  <div key={contact.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition">
+                {contacts.map((contact) => (
+                  <div key={contact.id} className="contact-item">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                      <div className="avatar bg-gradient-to-r from-primary-500 to-purple-500">
                         {contact.avatar}
                       </div>
                       <div>
@@ -473,10 +387,7 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <button 
-                      onClick={() => handleSendMoney(contact.id)}
-                      className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition"
-                    >
+                    <button className="btn-primary px-4 py-2 text-sm">
                       Send
                     </button>
                   </div>
@@ -527,32 +438,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex justify-around shadow-lg z-50">
-        {[
-          { icon: Wallet, label: 'Home', href: '/', active: true },
-          { icon: Send, label: 'Send', href: '/send' },
-          { icon: QrCode, label: 'QR', href: '/qr' },
-          { icon: History, label: 'History', href: '/history' },
-          { icon: User, label: 'Profile', href: '/contacts' },
-        ].map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            className={`flex flex-col items-center space-y-1 transition-all ${
-              item.active ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
-            }`}
-          >
-            <div className={`p-2 rounded-lg ${
-              item.active ? 'bg-blue-50' : ''
-            }`}>
-              <item.icon className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-medium">{item.label}</span>
-          </Link>
-        ))}
-      </nav>
     </div>
   );
 }

@@ -3,10 +3,11 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { BalanceProvider } from './context/BalanceContext'
 import Navigation from './components/Navigation'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   title: 'MoneyFlow - Fast & Secure Money Transfers',
@@ -19,18 +20,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 font-sans">
         <BalanceProvider>
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+          <div className="min-h-screen">
             <main className="container mx-auto px-4 py-8 pb-20">
               {children}
             </main>
             <Navigation />
           </div>
         </BalanceProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   )
