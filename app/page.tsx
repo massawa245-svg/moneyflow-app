@@ -14,12 +14,46 @@ import { useBalance } from './context/BalanceContext';
 export default function Home() {
   const { balance, isLoading: balanceLoading } = useBalance();
   const [timeOfDay, setTimeOfDay] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
+  const [currentTime, setCurrentTime] = useState('');
   
   useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setTimeOfDay('Morning');
-    else if (hour < 18) setTimeOfDay('Afternoon');
-    else setTimeOfDay('Evening');
+    // Funktion zum Aktualisieren von Datum und Uhrzeit
+    const updateDateTime = () => {
+      const now = new Date();
+      
+      // Tageszeit setzen
+      const hour = now.getHours();
+      if (hour < 12) setTimeOfDay('Morning');
+      else if (hour < 18) setTimeOfDay('Afternoon');
+      else setTimeOfDay('Evening');
+      
+      // Datum formatieren
+      const formattedDate = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      setCurrentDate(formattedDate);
+      
+      // Uhrzeit formatieren
+      const formattedTime = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      });
+      setCurrentTime(formattedTime);
+    };
+    
+    // Sofort aktualisieren
+    updateDateTime();
+    
+    // Timer für Aktualisierung der Uhrzeit (jede Minute)
+    const timerId = setInterval(updateDateTime, 60000);
+    
+    // Cleanup
+    return () => clearInterval(timerId);
   }, []);
   
   const quickActions = [
@@ -131,9 +165,9 @@ export default function Home() {
           
           <div className="flex items-center mt-4 text-sm text-gray-500">
             <Calendar className="w-4 h-4 mr-2" />
-            <span>Sunday, December 14, 2025</span>
+            <span>{currentDate}</span>
             <Clock className="w-4 h-4 ml-4 mr-2" />
-            <span>04:49 PM</span>
+            <span>{currentTime}</span>
           </div>
         </div>
 
