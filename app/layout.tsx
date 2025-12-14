@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Navigation from '@/components/Navigation'
-import { BalanceProvider } from '@/app/context/BalanceContext'
+import { BalanceProvider } from './context/BalanceContext'
+import Navigation from './components/Navigation'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -20,10 +20,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#2563eb" />
-      </head>
       <body className={inter.className}>
         <BalanceProvider>
           <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">

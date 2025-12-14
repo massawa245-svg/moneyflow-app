@@ -6,7 +6,7 @@ import {
   Home, 
   Send, 
   History, 
-  UserPlus, 
+  User, 
   QrCode,
   CreditCard
 } from 'lucide-react'
